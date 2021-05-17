@@ -84,3 +84,7 @@ body {
 .date:nth-child(7n) {
     color: #396EE2;
 }
+
+.other {
+    opacity: .3;
+}
