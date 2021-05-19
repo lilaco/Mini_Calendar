@@ -67,9 +67,7 @@ const nextMonth = () => {
 
 const goToday = () => {
     date = new Date(); //date값을 재할당 해줘야해서 const -> let (???)
-    //const와 let 사용법 제대로 체크할 것
-
-    renderCalendar();
+    renderCalendar();//const와 let 사용법 제대로 체크할 것
 }
 
 
