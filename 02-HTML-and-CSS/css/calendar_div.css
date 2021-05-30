@@ -1,0 +1,205 @@
+body {
+    width:50%;
+    margin: 100px auto;
+    background-color: antiquewhite;
+    font-family: 'Kanit', sans-serif;
+}
+
+.container {
+    display: grid;
+    width: 900px;
+    height: 500px;
+    grid-template-columns: 300px 600px;
+    grid-template-rows: 70px 70px 360px;
+}
+
+/* sidebar 사이드바 관련 부분 */
+.sidebar {
+    grid-row-start: 1;
+    grid-row-end: 4;
+    border-radius: 20px 0px 0px 20px;
+    background-color: #2ECC71;
+    color: white;
+
+}
+
+.today-date {
+    font-size: 150px;
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    font-weight: 700;
+}
+
+.today-day {
+    width: 50%;
+    margin: 0px auto;
+    font-size: 30px;
+    position: relative;
+    bottom: 60px;
+}
+
+.current-events {
+    font-size: 15px;
+    position: relative;
+    margin-left: 25px;
+    bottom: 40px;
+}
+.event-line {
+    width: 90%;
+    margin-top: 8rem;
+    }
+
+.add-event {
+    font-size: 18px;
+    position: relative;
+    margin-top: -1rem;
+    margin-left: 4rem;
+}
+
+.btn-add-event {
+font-size: 40px;
+position: relative;
+left: 20px;
+bottom: -5px;
+}
+
+.btn-add-event:hover {
+color:#27e879 !important;
+border-color: #27e879 !important;
+}
+/* sidebar 사이드바 관련 부분 끝 */
+
+/* header 헤더 관련 부분 */
+.header {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    background-color: white;
+    border-radius: 0px 20px 0px 0px;
+}
+
+.year-n-month {
+    color: lightcoral;
+    font-size: 33px;
+    float: left;
+    position: relative;
+    left: 30px;
+    top: 20px;
+    font-weight: bold;
+}
+
+.btn-go-today {
+    color: #E8E8E8;
+    font-size: 23px;
+    float: right;
+    position: relative;
+    right: 3.2rem;
+    top: 2rem;
+    font-weight: bold; 
+}
+.btn-go-today:hover {
+    color: blueviolet;
+}
+
+.triangle-left {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 20px solid #E8E8E8;
+    border-bottom: 10px solid transparent;
+    float: right;
+    position: relative;
+    right: 12rem;
+    top: 2.5rem;
+}
+
+.triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-left: 20px solid #E8E8E8;
+    border-bottom: 10px solid transparent;
+    float: right;
+    position: relative;
+    right: -5.5rem;
+    top: 2.5rem;
+}
+.triangle-left:hover{
+    border-right: 20px solid#2ECC71;
+}
+.triangle-right:hover{
+    border-left: 20px solid#2ECC71;
+}
+
+/* header 헤더 관련 부분 끝 */
+
+/* days 데이즈 관련 부분 */
+.days {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    background-color: white;
+}
+
+.month-line {
+    border-color: #E8E8E8;
+    position: relative;
+    top: 10px;
+    width: 90%;
+}
+
+.days-content {
+    color: #AAAAAA;
+    position: relative;
+    font-size: 20px;
+    text-align: center;
+    padding:2px;
+    left:-1px;
+    top: 7px;
+    word-spacing: 54px;
+    font-weight: 600;
+}
+/* days 데이즈 관련 부분 끝 */
+
+/* calendar 캘린더 관련 부분 */
+.calendar {
+    grid-row-start: 3;
+    grid-row-end: 4;
+    background-color: white;
+    border-radius: 0px 0px 20px 0px;
+}
+
+.dates {
+    display: flex;
+    flex-flow: row wrap;
+    width: 550px;
+    height: 330px;
+    
+    justify-content: center;
+    text-align: center;
+    vertical-align: bottom;
+    margin:auto;
+    margin-top: 15px;
+}
+
+.date {
+    width: 77px;
+    height: 50px;
+    font-size: 18px;
+}
+
+div .this-month:hover {
+    width: 77px;
+    height: 50px;
+    background-color: #2ECC71;
+    top: 1rem;
+    left: 661px;
+}
+
+.other-month {
+    opacity: 0.3;
+}
+
+input {
+    width: 10rem;
+}
+/* calendar 캘린더 관련 부분 끝 */

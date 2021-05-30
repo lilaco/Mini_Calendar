@@ -8,13 +8,7 @@ const renderCalendar = () => {
     const viewMonth = date.getMonth();
     document.querySelector('.year-month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
 
-    // 지난달 마지막 날짜와 요일, 그리고 이번 달 마지막 날짜와 요일 구하기
-    const prevLast = new Date(viewYear, viewMonth, 0);
-    const thisLast = new Date(viewYear, viewMonth + 1, 0);
-    const prevLastDate = prevLast.getDate();
-    const prevLastDay = prevLast.getDay();
-    const thisLastDate = thisLast.getDate();
-    const thisLastDay = thisLast.getDay();
+    
 
     //날짜를 담아두는 배열
     const prevDates = [];
@@ -45,9 +39,7 @@ const renderCalendar = () => {
     const firstDateIndex = dates.indexOf(1);
     const lastDateIndex = dates.lastIndexOf(thisLastDate);
     dates.forEach((date, i) => {
-        const condition = i >= firstDateIndex && i < lastDateIndex + 1
-                        ? 'this'
-                        : 'other';
+        const condition = i >= firstDateIndex && i < lastDateIndex + 1 ? 'this' : 'other';
         dates[i] = `<div class="date"><span class="${condition}">${date}</span></div>`;
     })
 

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS grid Calendar</title>
+    <style>
+        body {
+            width:50%;
+            margin: 100px auto;
+            background-color: antiquewhite;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .container {
+            display: grid;
+            width: 900px;
+            height: 500px;
+            grid-template-columns: 300px 600px;
+            grid-template-rows: 70px 70px 360px;
+        }
+
+        /* sidebar 사이드바 관련 부분 */
+        .sidebar {
+            grid-row-start: 1;
+            grid-row-end: 4;
+            border-radius: 20px 0px 0px 20px;
+            background-color: #2ECC71;
+            color: white;
+
+        }
+
+        .today-date {
+            font-size: 150px;
+            width: 50%;
+            margin: 0 auto;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .day {
+            width: 50%;
+            margin: 0px auto;
+            font-size: 30px;
+            position: relative;
+            bottom: 60px;
+        }
+
+        .current-events {
+            font-size: 10px;
+            position: relative;
+            margin-left: 25px;
+            bottom: 30px;
+        }
+
+        .posts {
+            text-decoration: underline dotted;
+        }
+        .posts:hover{
+            color:#27e879 !important;
+        }
+        .create-event {
+            font-size: 18px;
+            position: relative;
+            margin-top: 30px;
+            margin-left: 25px;
+        }
+
+        .event-line {
+        width: 90%;
+        }
+
+        .add-event {
+        width: 20px;
+        height: 20px;
+        padding: 0px;
+        border-radius: 50%;
+        border: solid white 2px;
+        position: relative;
+        bottom: 42px;
+        left: 260px;
+        }
+
+        .add {
+        font-size: 25px;
+        position: relative;
+        left: 4px;
+        bottom: 10px;
+        }
+
+        .add:hover, .create-event:hover, .add-event:hover{
+        color:#27e879 !important;
+        border-color: #27e879 !important;
+        }
+        /* sidebar 사이드바 관련 부분 끝 */
+        
+        /* header 헤더 관련 부분 */
+        .header {
+            grid-column-start: 2;
+            grid-row-start: 1;
+            background-color: white;
+            border-radius: 0px 20px 0px 0px;
+        }
+
+        .year-month {
+            color: lightcoral;
+            font-size: 33px;
+            float: left;
+            position: relative;
+            left: 30px;
+            top: 20px;
+            font-weight: bold;
+        }
+
+        .today-button {
+            color: #E8E8E8;
+            font-size: 25px;
+            float: right;
+            position: relative;
+            right: 68px;
+            top: 23px;
+            font-weight: bold; 
+        }
+        .today-button:hover {
+            color: blueviolet;
+        }
+
+        .triangle-left {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-right: 20px solid #E8E8E8;
+            border-bottom: 10px solid transparent;
+            float: right;
+            position: relative;
+            right: 230px;
+            top: 33px;
+        }
+
+        .triangle-right {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 20px solid #E8E8E8;
+            border-bottom: 10px solid transparent;
+            float: right;
+            position: relative;
+            right: -95px;
+            top: 33px;
+        }
+        .triangle-left:hover{
+            border-right: 20px solid#2ECC71;
+        }
+        .triangle-right:hover{
+            border-left: 20px solid#2ECC71;
+        }
+
+        /* header 헤더 관련 부분 끝 */
+
+        /* days 데이즈 관련 부분 */
+        .days {
+            grid-column-start: 2;
+            grid-row-start: 2;
+            background-color: white;
+        }
+
+        .month-line {
+            border-color: #E8E8E8;
+            position: relative;
+            top: 10px;
+            width: 90%;
+        }
+
+        .days-content {
+            color: #AAAAAA;
+            position: relative;
+            font-size: 20px;
+            text-align: center;
+            padding:2px;
+            left:-1px;
+            top: 7px;
+            word-spacing: 54px;
+            font-weight: 600;
+        }
+        /* days 데이즈 관련 부분 끝 */
+
+        /* calendar 캘린더 관련 부분 */
+        .calendar {
+            grid-row-start: 3;
+            grid-row-end: 4;
+            background-color: white;
+            border-radius: 0px 0px 20px 0px;
+        }
+        .dates {
+            display: flex;
+            flex-flow: row wrap;
+            width: 550px;
+            height: 330px;
+            
+            justify-content: center;
+            text-align: center;
+            vertical-align: bottom;
+            margin:auto;
+            margin-top: 15px;
+        }
+
+        .date {
+            width: 77px;
+            height: 50px;
+            font-size: 18px;
+        }
+
+        .date:hover {
+            width: 77px;
+            height: 50px;
+            background-color: #2ECC71;
+            top: 295px;
+            left: 661px;
+        }
+        
+
+        .other {
+            opacity: 0.3;
+        }
+
+        /* calendar 캘린더 관련 부분 끝 */
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="hamburger">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <!-- hamburger -->
+
+            <div class="today-date"></div>
+            <div class="day"></div>
+            <!-- today date & day -->
+
+            <div class="current-events">
+                <br/>
+                <ul>
+                    <li>Day 09 Daily CSS Image</li>
+                </ul>
+                <span class="posts">See post events</span>
+            </div>
+            <!-- current-events -->
+
+            <div class="create-event">Create an Event</div>
+            <hr class="event-line"/>
+            <div class="add-event"><span class="add">+</span></div>
+            <!-- create-event -->
+
+        </div>
+        <!-- sidebar -->
+
+        <div class="header">
+            <div class="year-month">2017 MAY</div>
+
+            <div class="triangle-left" onclick="prevMonth()"></div>
+            <div class="today-button" onclick="goToday()">GO TODAY</div>
+            <div class="triangle-right" onclick="nextMonth()"></div>
+        </div>
+        <!-- header -->
+
+        <div class="days">
+            <hr class="month-line"/>
+            <div class="days-content">일 월 화 수 목 금 토</div>
+        </div>
+        <!-- days -->
+
+        <div class="calendar">
+            <div class="dates"></div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    const date = new Date();
+    function renderCalendar() {
+        console.log('hey!');
+
+        const viewYear = date.getFullYear();
+        const viewMonth = date.getMonth();
+        const viewDay = date.getDay();
+        const viewDate = date.getDate();
+
+        const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+                            "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+        const weekNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+        const viewHeaderMonth = monthNames[date.getMonth()];
+        
+        document.querySelector('.year-month').textContent = viewYear +" "+ viewHeaderMonth;
+        document.querySelector('.day').textContent = weekNames[viewDay];
+        document.querySelector('.today-date').textContent = viewDate;
+
+        // 지난달 마지막 날짜와 요일, 그리고 이번 달 마지막 날짜와 요일 구하기
+            const prevLast = new Date(viewYear, viewMonth, 0);
+            const thisLast = new Date(viewYear, viewMonth + 1, 0);
+            const prevLastDate = prevLast.getDate();
+            const prevLastDay = prevLast.getDay();
+            const thisLastDate = thisLast.getDate();
+            const thisLastDay = thisLast.getDay();
+
+        //날짜를 담아두는 배열
+            const prevDates = [];
+            const thisDates = [...Array(thisLastDate + 1).keys()].slice(1); //분석할것.
+            const nextDates = [];
+
+            //지난달 날짜 계산(달력 앞부분)
+            if(prevLastDay !== 6) {
+                for (let i = 0; i< prevLastDay + 1; i++) {
+                    prevDates.unshift(prevLastDate - i);
+                }
+            }
+
+            //다음달 날짜 배열에 입력(달력 뒷부분)
+            for (let i = 1; i<7 - thisLastDay; i++) {
+                nextDates.push(i);
+            }
+
+            //지난달 이번달 다음달 날짜 합치기
+            const dates = prevDates.concat(thisDates, nextDates);
+            
+            //모든 날짜 html에 뿌리기
+            // dates.forEach((date, i) => {
+            //     dates[i] = '<div class="date">' + date + '</div>';
+            // })
+
+            const firstDateIndex = dates.indexOf(1);
+            const lastDateIndex = dates.lastIndexOf(thisLastDate);
+            dates.forEach((date, i) => {
+                const condition = i >= firstDateIndex && i < lastDateIndex + 1
+                                ? 'this'
+                                : 'other';
+                let divDate = '<div class="date"><span class="[[condition]]">[[date]]</span></div>';
+                dates[i] = divDate.replace("[[condition]]", condition).replace("[[date]]", date);
+            })
+            document.querySelector('.dates').innerHTML = dates.join('');
+    }
+    
+
+    renderCalendar();
+    
+    function prevMonth() {
+        date.setMonth(date.getMonth() - 1);
+        renderCalendar();
+    }
+    function nextMonth() {
+        date.setMonth(date.getMonth() + 1);
+        renderCalendar();
+    }
+
+    function goToday() {
+        
+    }
+
+</script>
+</html>
