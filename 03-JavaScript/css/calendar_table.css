@@ -1,0 +1,60 @@
+table {
+    background-color: white;
+    box-shadow: 15px 15px 10px 0px #888888;
+    border-spacing: 0;
+    width:40%;
+    text-align:center;
+    border:0;
+}
+
+td {
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
+    font-size: 16px;
+    color: gray;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    background-color: whitesmoke;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    margin: 0vmin;
+}
+
+#week th{
+    font-size: 20px;
+    color: grey;
+    width: 2rem;
+}
+
+#week {
+    background-color: rgb(213, 218, 213);
+    height: 3rem;
+}
+
+.header-nav, .year-n-month{
+    color: white;
+    font-size: 30px;
+}
+
+tr.month-nav {
+    background-color: rgb(187, 166, 199);
+    height: 4rem;
+}
+
+.date-sunday {
+    color: palevioletred;
+}
+
+.date-saturday {
+    color: skyblue;
+}
+
+.date-other-month {
+    color: grey;
+    opacity: 0.3;
+}

@@ -21,11 +21,14 @@ const thisLast = new Date(viewYear, viewMonth + 1, 0);
 const prevLastDate = prevLast.getDate();
 const prevLastDay = prevLast.getDay();
 const thisLastDate = thisLast.getDate();
+console.log(thisLastDate);
 const thisLastDay = thisLast.getDay();
 
  //날짜를 담아두는 배열
  const prevDates = [];
  const thisDates = [...Array(thisLastDate + 1).keys()].slice(1); //분석할것.
+ 
+console.log(thisDates);
  const nextDates = [];
 
  //지난달 날짜 계산(달력 앞부분)
