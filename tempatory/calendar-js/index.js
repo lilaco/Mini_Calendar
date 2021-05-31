@@ -21,7 +21,7 @@ const thisLast = new Date(viewYear, viewMonth + 1, 0);
 const prevLastDate = prevLast.getDate();
 const prevLastDay = prevLast.getDay();
 const thisLastDate = thisLast.getDate();
-console.log(thisLastDate);
+console.log(prevLast);
 const thisLastDay = thisLast.getDay();
 
  //날짜를 담아두는 배열

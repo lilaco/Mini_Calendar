@@ -30,7 +30,7 @@
         </tr>
 
         <!-- 첫째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday date-other-month">25</td>
             <td class="date-other-month">26</td>
             <td class="date-other-month">27</td>
@@ -38,10 +38,10 @@
             <td class="date-other-month">29</td>
             <td class="date-other-month">30</td>
             <td class="date-saturday">1</td>
-        </tr>
+        </tr> -->
 
         <!-- 둘째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday">2</td>
             <td>3</td>
             <td>4</td>
@@ -49,10 +49,10 @@
             <td>6</td>
             <td>7</td>
             <td class="date-saturday">8</td>
-        </tr>
+        </tr> -->
 
         <!-- 셋째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday">9</td>
             <td>10</td>
             <td>11</td>
@@ -60,10 +60,10 @@
             <td>13</td>
             <td>14</td>
             <td class="date-saturday">15</td>
-        </tr>
+        </tr> -->
 
         <!-- 넷째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday">16</td>
             <td>17</td>
             <td>18</td>
@@ -71,10 +71,10 @@
             <td>20</td>
             <td>21</td>
             <td class="date-saturday">22</td>
-        </tr>
+        </tr> -->
 
         <!-- 다섯째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday">23</td>
             <td>24</td>
             <td>25</td>
@@ -82,10 +82,10 @@
             <td>27</td>
             <td>28</td>
             <td class="date-saturday">29</td>
-        </tr>
+        </tr> -->
 
         <!-- 여섯째주 -->
-        <tr>
+        <!-- <tr>
             <td class="date-sunday">30</td>
             <td>31</td>
             <td class="date-other-month">1</td>
@@ -93,7 +93,7 @@
             <td class="date-other-month">3</td>
             <td class="date-other-month">4</td>
             <td class="date-saturday date-other-month">5</td>
-        </tr>
+        </tr> -->
     </table>
 </body>
 <script src="../js/moment.js"></script>
@@ -106,16 +106,91 @@
     document.querySelector('.year-n-month').textContent = thisYearNMonth;
     
     //저번달 날짜들과 다음달 날짜들을 불러오기 위함
-    const lastMonthData = moment(date).subtract("1","M");
-    const NextMonthData = moment(date).add("1", "M");
-
+    const lastMonthData = moment(date).subtract("1","M").endOf('month').toDate(); //지난달 마지막날
+    const thisMonthData = moment(date).endOf('month').toDate();
+    const NextMonthData = moment(date).add("1", "M").endOf('month').toDate();
     
-    const calendarElement = document.getElementById("calendar-table");
-    console.log(lastMonthData.format("DD"));
+    const thisMonthDate = thisMonthData.getDate();
+    
+    //날짜 담아두기
+    const prevDates = [];
+    const thisDates = [...Array(thisMonthDate + 1).keys()].slice(1);//이번달 날짜는 바로 출력하기.
+    const nextDates = [];
+
+    //달력 앞부분 (지난달 날짜 계산하여 배열에 담기)
+    const prevLastDay = moment(lastMonthData).day();//5 금요일
+    const lastMonthDate = lastMonthData.getDate();
+    
+    if(prevLastDay !== 6) {
+       for (let i = 0; i< prevLastDay + 1; i++) {
+           prevDates.unshift(lastMonthDate - i);
+       }
+    }
+    
+    //달력 뒷부분 (다음달 날짜 계산하여 배열에 담기)
+    const thisLastDay = moment().endOf('month').day();//1 월요일 0은 일요일
+    for (let i = 1; i<7 - thisLastDay; i++) {
+        nextDates.push(i);
+    }
+    
+    //배열 합치기
+    const dates = prevDates.concat(thisDates, nextDates);
+    console.log(dates);
+
+    //달력 테이블에 날짜 출력하기
+    const table = document.getElementById("calendar-table");
+
+    const newRow = [];
+    newRow[0] = table.insertRow();
+    newRow[1] = table.insertRow();
+    
+    // const newCell2 = newRow.insertCell(1);
+    // const newCell3 = newRow.insertCell(2);
+    
+    const newCell = [];
+    const newCell2 = [];
+    newCell[0] = newRow[0].insertCell(0);
+    newCell[1] = newRow[0].insertCell(1);
+    newCell[2] = newRow[0].insertCell(2);
+    newCell[3] = newRow[0].insertCell(3);
+    newCell[4] = newRow[0].insertCell(4);
+    newCell[5] = newRow[0].insertCell(5);
+    newCell[6] = newRow[0].insertCell(6);
+
+    newCell2[0] = newRow[1].insertCell(0);
+    newCell2[1] = newRow[1].insertCell(1);
+    newCell2[2] = newRow[1].insertCell(2);
+    newCell2[3] = newRow[1].insertCell(3);
+    newCell2[4] = newRow[1].insertCell(4);
+    newCell2[5] = newRow[1].insertCell(5);
+    newCell2[6] = newRow[1].insertCell(6);
+
+    newCell[0].innerHTML = dates[0];
+    newCell[1].innerHTML = dates[1];
+    newCell[2].innerHTML = dates[2];
+    newCell[3].innerHTML = dates[3];
+    newCell[4].innerHTML = dates[4];
+    newCell[5].innerHTML = dates[5];
+    newCell[6].innerHTML = dates[6];
+
+    newCell2[0].innerHTML = dates[7];
+    newCell2[1].innerHTML = dates[8];
+    newCell2[2].innerHTML = dates[9];
+    newCell2[3].innerHTML = dates[10];
+    newCell2[4].innerHTML = dates[11];
+    newCell2[5].innerHTML = dates[12];
+    newCell2[6].innerHTML = dates[13];
+    //반복문 돌려서 간결하게 만들기.
+
+    console.log(newCell);
     
     
-
-
+    dates.forEach((date, i) => {
+        if(i % 7 == 0){
+            table.insertRow();
+        }
+        dates[i] = 0;
+    });
 
     $(document).ready(function(){
         $(".btn-today").click(function(){
