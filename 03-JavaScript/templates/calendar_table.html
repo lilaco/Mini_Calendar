@@ -3,215 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TABLE Type Calendar ONLY HTML</title>
+    <title>TABLE Type Calendar using JS</title>
+    <link rel="stylesheet" href="../css/calendar_table.css">
 </head>
-<link rel="stylesheet" href="../css/calendar_table.css">
 <body>
     <table id="calendar-table">
-        <!-- 연도, 지난달 및 다음달 버튼 -->
-        <tr class="month-nav">
-            <th colspan="4" class="year-n-month"></th>
-            <th class="header-nav prev-month"><a href="javascript:;">&lt;</a></th> 
-            <!-- html 특수문자 표 확인하기 -->
-            <th class="header-nav btn-today"><a href="javascript:;">T</a></th>
-            <!-- Today 버튼 -->
-            <th class="header-nav next-month"><a href="javascript:;">&gt;</a></th>
-        </tr>
+        <thead>
+            <!-- 연도, 지난달 및 다음달 버튼 -->
+            <tr class="month-nav">
+                <th colspan="4" class="year-n-month"></th>
+                <th class="header-nav prev-month"><a href="javascript:;">&lt;</a></th> 
+                <!-- html 특수문자 표 확인하기 -->
+                <th class="header-nav btn-today"><a href="javascript:;">T</a></th>
+                <!-- Today 버튼 -->
+                <th class="header-nav next-month"><a href="javascript:;">&gt;</a></th>
+            </tr>
 
-        <!-- 요일 -->
-        <tr id="week">
-            <th>일</th>
-            <th>월</th>
-            <th>화</th>
-            <th>수</th>
-            <th>목</th>
-            <th>금</th>
-            <th>토</th>
-        </tr>
+            <!-- 요일 -->
+            <tr id="week">
+                <th>일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
+            </tr>
+        </thead>
 
-        <!-- 첫째주 -->
-        <!-- <tr>
-            <td class="date-sunday date-other-month">25</td>
-            <td class="date-other-month">26</td>
-            <td class="date-other-month">27</td>
-            <td class="date-other-month">28</td>
-            <td class="date-other-month">29</td>
-            <td class="date-other-month">30</td>
-            <td class="date-saturday">1</td>
-        </tr> -->
-
-        <!-- 둘째주 -->
-        <!-- <tr>
-            <td class="date-sunday">2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td class="date-saturday">8</td>
-        </tr> -->
-
-        <!-- 셋째주 -->
-        <!-- <tr>
-            <td class="date-sunday">9</td>
-            <td>10</td>
-            <td>11</td>
-            <td>12</td>
-            <td>13</td>
-            <td>14</td>
-            <td class="date-saturday">15</td>
-        </tr> -->
-
-        <!-- 넷째주 -->
-        <!-- <tr>
-            <td class="date-sunday">16</td>
-            <td>17</td>
-            <td>18</td>
-            <td>19</td>
-            <td>20</td>
-            <td>21</td>
-            <td class="date-saturday">22</td>
-        </tr> -->
-
-        <!-- 다섯째주 -->
-        <!-- <tr>
-            <td class="date-sunday">23</td>
-            <td>24</td>
-            <td>25</td>
-            <td>26</td>
-            <td>27</td>
-            <td>28</td>
-            <td class="date-saturday">29</td>
-        </tr> -->
-
-        <!-- 여섯째주 -->
-        <!-- <tr>
-            <td class="date-sunday">30</td>
-            <td>31</td>
-            <td class="date-other-month">1</td>
-            <td class="date-other-month">2</td>
-            <td class="date-other-month">3</td>
-            <td class="date-other-month">4</td>
-            <td class="date-saturday date-other-month">5</td>
-        </tr> -->
+        <!-- 날짜 -->
+        <tbody id="calendar-tbody"></tbody>
     </table>
-</body>
-<script src="../js/moment.js"></script>
-<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-<script>
-    const date = new Date();
 
-    //헤더부분에 년도와 월 찍기
-    const thisYearNMonth = moment(date).format("YYYY MMMM").toUpperCase();
-    document.querySelector('.year-n-month').textContent = thisYearNMonth;
+    <script src="../js/moment.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script>
+        const date = new Date();
     
-    //저번달 날짜들과 다음달 날짜들을 불러오기 위함
-    const lastMonthData = moment(date).subtract("1","M").endOf('month').toDate(); //지난달 마지막날
-    const thisMonthData = moment(date).endOf('month').toDate();
-    const NextMonthData = moment(date).add("1", "M").endOf('month').toDate();
+        //헤더부분에 년도와 월 찍기
+        const thisYearNMonth = moment(date).format("YYYY MMMM").toUpperCase();
+        document.querySelector('.year-n-month').textContent = thisYearNMonth;
+        
+        //저번달 날짜들과 다음달 날짜들을 불러오기 위함
+        const lastMonthData = moment(date).subtract("1","M").endOf('month').toDate(); //지난달 마지막날
+        const thisMonthData = moment(date).endOf('month').toDate();
+        const NextMonthData = moment(date).add("1", "M").endOf('month').toDate();
+        const thisMonthDate = thisMonthData.getDate();
+        
+        //날짜 담아두기
+        const prevDates = [];
+        const thisDates = [...Array(thisMonthDate + 1).keys()].slice(1);//이번달 날짜는 바로 출력하기.
+        const nextDates = [];
     
-    const thisMonthDate = thisMonthData.getDate();
-    
-    //날짜 담아두기
-    const prevDates = [];
-    const thisDates = [...Array(thisMonthDate + 1).keys()].slice(1);//이번달 날짜는 바로 출력하기.
-    const nextDates = [];
-
-    //달력 앞부분 (지난달 날짜 계산하여 배열에 담기)
-    const prevLastDay = moment(lastMonthData).day();//5 금요일
-    const lastMonthDate = lastMonthData.getDate();
-    
-    if(prevLastDay !== 6) {
-       for (let i = 0; i< prevLastDay + 1; i++) {
-           prevDates.unshift(lastMonthDate - i);
-       }
-    }
-    
-    //달력 뒷부분 (다음달 날짜 계산하여 배열에 담기)
-    const thisLastDay = moment().endOf('month').day();//1 월요일 0은 일요일
-    for (let i = 1; i<7 - thisLastDay; i++) {
-        nextDates.push(i);
-    }
-    
-    //배열 합치기
-    const dates = prevDates.concat(thisDates, nextDates);
-    console.log(dates);
-
-    //달력 테이블에 날짜 출력하기
-    const table = document.getElementById("calendar-table");
-
-    const newRow = [];
-    newRow[0] = table.insertRow();
-    newRow[1] = table.insertRow();
-    
-    // const newCell2 = newRow.insertCell(1);
-    // const newCell3 = newRow.insertCell(2);
-    
-    const newCell = [];
-    const newCell2 = [];
-    newCell[0] = newRow[0].insertCell(0);
-    newCell[1] = newRow[0].insertCell(1);
-    newCell[2] = newRow[0].insertCell(2);
-    newCell[3] = newRow[0].insertCell(3);
-    newCell[4] = newRow[0].insertCell(4);
-    newCell[5] = newRow[0].insertCell(5);
-    newCell[6] = newRow[0].insertCell(6);
-
-    newCell2[0] = newRow[1].insertCell(0);
-    newCell2[1] = newRow[1].insertCell(1);
-    newCell2[2] = newRow[1].insertCell(2);
-    newCell2[3] = newRow[1].insertCell(3);
-    newCell2[4] = newRow[1].insertCell(4);
-    newCell2[5] = newRow[1].insertCell(5);
-    newCell2[6] = newRow[1].insertCell(6);
-
-    newCell[0].innerHTML = dates[0];
-    newCell[1].innerHTML = dates[1];
-    newCell[2].innerHTML = dates[2];
-    newCell[3].innerHTML = dates[3];
-    newCell[4].innerHTML = dates[4];
-    newCell[5].innerHTML = dates[5];
-    newCell[6].innerHTML = dates[6];
-
-    newCell2[0].innerHTML = dates[7];
-    newCell2[1].innerHTML = dates[8];
-    newCell2[2].innerHTML = dates[9];
-    newCell2[3].innerHTML = dates[10];
-    newCell2[4].innerHTML = dates[11];
-    newCell2[5].innerHTML = dates[12];
-    newCell2[6].innerHTML = dates[13];
-    //반복문 돌려서 간결하게 만들기.
-
-    console.log(newCell);
-    
-    
-    dates.forEach((date, i) => {
-        if(i % 7 == 0){
-            table.insertRow();
+        //달력 앞부분 (지난달 날짜 계산하여 배열에 담기)
+        const prevLastDay = moment(lastMonthData).day();//5 금요일
+        const lastMonthDate = lastMonthData.getDate();
+        
+        if(prevLastDay !== 6) {
+           for (let i = 0; i< prevLastDay + 1; i++) {
+               prevDates.unshift(lastMonthDate - i);
+           }
         }
-        dates[i] = 0;
-    });
+        
+        //달력 뒷부분 (다음달 날짜 계산하여 배열에 담기)
+        const thisLastDay = moment().endOf('month').day();//1 월요일 0은 일요일
+        for (let i = 1; i<7 - thisLastDay; i++) {
+            nextDates.push(i);
+        }
+        
+        //배열 합치기
+        const dates = prevDates.concat(thisDates, nextDates);
+        
+        //달력 테이블에 날짜 출력하기(테이블 선언)
+        const table = document.getElementById("calendar-tbody");
 
-    $(document).ready(function(){
-        $(".btn-today").click(function(){
+        //현재 달 기준,저번달과 다음달의 날짜는 흐리게 처리하기(addclass -> other)
+        const firstDateIndex = dates.indexOf(1);
+        const lastDateIndex = dates.lastIndexOf(thisMonthDate);//Index로 이번달의 범위 파악하기
+
+        //TR, TD를 생성하여 날짜데이터 배치하기.
+        var row = [];
+        var count = 0;//날짜를 담아둔 배열을 모두 돌기 위함.
+        
+        for(j=0; j<(dates.length/7); j++ ){
+            //달력의 행 출력하기(첫째주, 둘째주, ...)
+            row[j] = table.insertRow();
             
-        })
-    });
+            //날짜찍기
+            for(i=0; i<7; i++){
+                cell = row[j].insertCell();
+                cell.innerHTML = dates[count];
 
-    function renderDates(){
+                //이번달에 속하는지 아닌지 클래스 지정.
+                if((count >= firstDateIndex) && (count < lastDateIndex+1)) {
+                    cell.classList.add('this');
+                } else { 
+                    cell.classList.add('date-other-month');
+                }
 
-    }
+                //토요일, 일요일 클래스 지정.
+                if(count % 7 == 0) cell.classList.add('date-sunday');
+                if(count % 7 == 6) cell.classList.add('date-saturday');
+                count++;
+            }
+        }
 
-    function goToday(){
-
-    }
-
-    function goPrevMonth(){
-
-    }
-
-    function goNextMonth(){
-
-    }
-</script>
+        $(document).ready(function(){
+            $(".btn-today").click(function(){
+            })
+        });
+    
+        function renderDates(){
+        }
+    
+        function goToday(){
+        }
+    
+        function goPrevMonth(){
+        }
+    
+        function goNextMonth(){
+        }
+    </script>
+</body>
 </html>

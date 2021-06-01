@@ -48,6 +48,7 @@ console.log(thisDates);
 
  const firstDateIndex = dates.indexOf(1);
     const lastDateIndex = dates.lastIndexOf(thisLastDate);
+    console.log(lastDateIndex);
     dates.forEach((date, i) => {
         const condition = i >= firstDateIndex && i < lastDateIndex + 1 ? 'this' : 'other';
         dates[i] = `<div class="date"><span class="${condition}">${date}</span></div>`;
