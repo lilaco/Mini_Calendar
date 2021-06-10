@@ -12,11 +12,11 @@
             <!-- 연도, 지난달 및 다음달 버튼 -->
             <tr class="month-nav">
                 <th colspan="4" class="year-n-month"></th>
-                <th class="header-nav prev-month"><a href="javascript:;">&lt;</a></th> 
+                <th class="header-nav prev-month"><a href="javascript:;" onclick="goPrevMonth()">&lt;</a></th> 
                 <!-- html 특수문자 표 확인하기 -->
-                <th class="header-nav btn-today"><a href="javascript:;">T</a></th>
+                <th class="header-nav btn-today"><a href="javascript:;" onclick="goToday()">T</a></th>
                 <!-- Today 버튼 -->
-                <th class="header-nav next-month"><a href="javascript:;">&gt;</a></th>
+                <th class="header-nav next-month"><a href="javascript:;" onclick="goNextMonth()">&gt;</a></th>
             </tr>
 
             <!-- 요일 -->
@@ -38,92 +38,127 @@
     <script src="../js/moment.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
     <script>
-        const date = new Date();
-    
-        //헤더부분에 년도와 월 찍기
-        const thisYearNMonth = moment(date).format("YYYY MMMM").toUpperCase();
-        document.querySelector('.year-n-month').textContent = thisYearNMonth;
         
-        //저번달 날짜들과 다음달 날짜들을 불러오기 위함
-        const lastMonthData = moment(date).subtract("1","M").endOf('month').toDate(); //지난달 마지막날
-        const thisMonthData = moment(date).endOf('month').toDate();
-        const NextMonthData = moment(date).add("1", "M").endOf('month').toDate();
-        const thisMonthDate = thisMonthData.getDate();
+        let date = new Date();
+        //추후에 Jquery를 사용하는것으로 변경하기.
         
-        //날짜 담아두기
-        const prevDates = [];
-        const thisDates = [...Array(thisMonthDate + 1).keys()].slice(1);//이번달 날짜는 바로 출력하기.
-        const nextDates = [];
-    
-        //달력 앞부분 (지난달 날짜 계산하여 배열에 담기)
-        const prevLastDay = moment(lastMonthData).day();//5 금요일
-        const lastMonthDate = lastMonthData.getDate();
+        renderDates();
         
-        if(prevLastDay !== 6) {
-           for (let i = 0; i< prevLastDay + 1; i++) {
-               prevDates.unshift(lastMonthDate - i);
-           }
-        }
-        
-        //달력 뒷부분 (다음달 날짜 계산하여 배열에 담기)
-        const thisLastDay = moment().endOf('month').day();//1 월요일 0은 일요일
-        for (let i = 1; i<7 - thisLastDay; i++) {
-            nextDates.push(i);
-        }
-        
-        //배열 합치기
-        const dates = prevDates.concat(thisDates, nextDates);
-        
-        //달력 테이블에 날짜 출력하기(테이블 선언)
-        const table = document.getElementById("calendar-tbody");
-
-        //현재 달 기준,저번달과 다음달의 날짜는 흐리게 처리하기(addclass -> other)
-        const firstDateIndex = dates.indexOf(1);
-        const lastDateIndex = dates.lastIndexOf(thisMonthDate);//Index로 이번달의 범위 파악하기
-
-        //TR, TD를 생성하여 날짜데이터 배치하기.
-        var row = [];
-        var count = 0;//날짜를 담아둔 배열을 모두 돌기 위함.
-        
-        for(j=0; j<(dates.length/7); j++ ){
-            //달력의 행 출력하기(첫째주, 둘째주, ...)
-            row[j] = table.insertRow();
+        $(document).ready(function(){
             
-            //날짜찍기
-            for(i=0; i<7; i++){
-                cell = row[j].insertCell();
-                cell.innerHTML = dates[count];
+        });
+        
 
-                //이번달에 속하는지 아닌지 클래스 지정.
-                if((count >= firstDateIndex) && (count < lastDateIndex+1)) {
-                    cell.classList.add('this');
-                } else { 
-                    cell.classList.add('date-other-month');
+        //이벤트에 맞춰서 달력날짜를 갱신하여 뿌리기
+        function renderDates(){
+                //헤더부분에 년도와 월 찍기
+            const thisYearNMonth = moment(date).format("YYYY MMMM").toUpperCase();
+            document.querySelector('.year-n-month').textContent = thisYearNMonth;
+            
+            //저번달 날짜들과 다음달 날짜들을 불러오기 위함
+            const lastMonthData = moment(date).subtract("1","M").endOf('month').toDate(); //지난달 마지막날
+            const thisMonthData = moment(date).endOf('month').toDate(); //이번달 마지막 날
+            const NextMonthData = moment(date).add("1", "M").endOf('month').toDate(); // 다음달 마지막 날
+            const thisMonthDate = thisMonthData.getDate(); //이번달 마지막 날 날짜만 가져오기
+            
+            //날짜 담아두기
+            const prevDates = [];
+            const thisDates = [...Array(thisMonthDate + 1).keys()].slice(1);//이번달 날짜는 바로 출력하기.
+            const nextDates = [];
+        
+            //달력 앞부분 (지난달 날짜 계산하여 배열에 담기)
+            const prevLastDay = moment(lastMonthData).day();//5 금요일
+            const lastMonthDate = lastMonthData.getDate();
+            
+            if(prevLastDay !== 6) {
+            for (let i = 0; i< prevLastDay + 1; i++) {
+                prevDates.unshift(lastMonthDate - i);
+            }
+            }
+            
+            //달력 뒷부분 (다음달 날짜 계산하여 배열에 담기)
+            const thisLastDay = moment(date).endOf('month').day();//1 월요일 0은 일요일
+            for (let i = 1; i<7 - thisLastDay; i++) {
+                nextDates.push(i);
+            }
+            
+            //배열 합치기
+            const dates = prevDates.concat(thisDates, nextDates);
+            
+            //달력 테이블에 날짜 출력하기(테이블 선언)
+            const table = document.getElementById("calendar-tbody");
+
+            //현재 달 기준,저번달과 다음달의 날짜는 흐리게 처리하기(addclass -> other)
+            const firstDateIndex = dates.indexOf(1);
+            const lastDateIndex = dates.lastIndexOf(thisMonthDate);//Index로 이번달의 범위 파악하기
+
+            //TR, TD를 생성하여 날짜데이터 배치하기.
+            var row = [];
+            var count = 0;//날짜를 담아둔 배열을 모두 돌기 위함.
+            
+            for(j=0; j<(dates.length/7); j++){
+                //달력의 행 출력하기(첫째주, 둘째주, ...)
+                row[j] = table.insertRow();
+                
+                //날짜찍기
+                for(i=0; i<7; i++){
+                    cell = row[j].insertCell();
+                    cell.innerHTML = dates[count];
+
+                    //이번달에 속하는지 아닌지 클래스 지정.
+                    if((count >= firstDateIndex) && (count < lastDateIndex+1)) {
+                        cell.classList.add('this');
+                    } else { 
+                        cell.classList.add('date-other-month');
+                    }
+
+                    //토요일, 일요일 클래스 지정.
+                    if(count % 7 == 0) cell.classList.add('date-sunday');
+                    if(count % 7 == 6) cell.classList.add('date-saturday');
+                    count++;
                 }
-
-                //토요일, 일요일 클래스 지정.
-                if(count % 7 == 0) cell.classList.add('date-sunday');
-                if(count % 7 == 6) cell.classList.add('date-saturday');
-                count++;
             }
         }
-
-        $(document).ready(function(){
-            $(".btn-today").click(function(){
-            })
-        });
     
-        function renderDates(){
-        }
-    
+        //오늘 날짜로 이동하는 함수(현재 Date 기준으로 달력 날짜 뿌리고 색상 변화시키기)
         function goToday(){
+            var tBody = document.getElementById('calendar-tbody');
+
+            //반복문으로 기존 달력에 찍혀있던 데이터 비우기.
+            while (tBody.firstChild) {
+                tBody.firstChild.remove();
+            }
+
+            date = new Date();
+            renderDates();
         }
     
+        //이전 달로 이동하는 함수
         function goPrevMonth(){
+            var tBody = document.getElementById('calendar-tbody');
+
+            //반복문으로 기존 달력에 찍혀있던 데이터 비우기.
+            while (tBody.firstChild) {
+                tBody.firstChild.remove();
+            }
+
+            date.setMonth(date.getMonth() - 1);
+            renderDates();
         }
     
+        //다음 달로 이동하는 함수
         function goNextMonth(){
+            var tBody = document.getElementById('calendar-tbody');
+
+            //반복문으로 기존 달력에 찍혀있던 데이터 비우기.
+            while (tBody.firstChild) {
+                tBody.firstChild.remove();
+            }
+
+            date.setMonth(date.getMonth() + 1);
+            renderDates();
         }
+
     </script>
 </body>
 </html>
