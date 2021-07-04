@@ -27,6 +27,10 @@ function load() {
     //split 함수 유용함
     const paddingDays = weekdays.indexOf(dateString.split('. ')[3]);
 
+    // 월, 연도 표시.
+    document.getElementById('monthDisplay').innerText = 
+        `${dt.toLocaleDateString('ko-KR', { month: 'long'})} ${year}`;
+
     //날짜찍기?
     for(let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
