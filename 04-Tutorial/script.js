@@ -10,6 +10,11 @@ const weekdays = ['일요일', '월요일', '화요일', '수요일', '목요일
 function load() {
     const dt = new Date();
 
+    //This related on next:back button
+    if(nav != 0) {
+        dt.setMonth(new Date().getMonth() + nav);
+    }
+
     const day = dt.getDate();
     const month = dt.getMonth();
     const year = dt.getFullYear();
@@ -31,6 +36,8 @@ function load() {
     document.getElementById('monthDisplay').innerText = 
         `${dt.toLocaleDateString('ko-KR', { month: 'long'})} ${year}`;
 
+    calendar.innerHTML = '';
+
     //날짜찍기?
     for(let i = 1; i <= paddingDays + daysInMonth; i++) {
         const daySquare = document.createElement('div');
@@ -49,4 +56,17 @@ function load() {
     }
 }
 
+function initButtons() {
+    document.getElementById('nextButton').addEventListener('click', () => {
+        nav++;
+        load();
+    });
+
+    document.getElementById('backButton').addEventListener('click', () => {
+        nav--;
+        load();
+    });
+}
+
+initButtons();
 load();
