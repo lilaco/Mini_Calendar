@@ -6,6 +6,7 @@ let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('e
 
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
+const deleteEventModal = document.getElementById('deleteEventModal');
 const backDrop = document.getElementById('modalBackDrop');
 const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
@@ -17,7 +18,8 @@ function openModal(date) {
     const eventForDay = events.find(e => e.date === clicked);
 
     if (eventForDay) {
-        console.log('이벤트가 이미 존재합니다.');
+        document.getElementById('eventText').innerText = eventForDay.title;
+        deleteEventModal.style.display = 'block';
     } else {
         newEventModal.style.display = 'block';
     }
@@ -69,6 +71,11 @@ function load() {
 
             const eventForDay = events.find(e => e.date === dayString);
 
+            // 오늘 날짜 색상으로 나타내기.
+            if(i - paddingDays === day && nav === 0) {
+                daySquare.id = 'currentDay';
+            }
+
             if(eventForDay) {
                const eventDiv = document.createElement('div');
                eventDiv.classList.add('event');
@@ -90,6 +97,7 @@ function load() {
 function closeModal() {
     eventTitleInput.classList.remove('error');
     newEventModal.style.display = 'none';
+    deleteEventModal.style.display = 'none';
     backDrop.style.display = 'none';
     eventTitleInput.value = '';
     clicked = null;
@@ -112,6 +120,12 @@ function saveEvent() {
     }
 }
 
+function deleteEvent() {
+    events = events.filter(e => e.date !== clicked);
+    localStorage.setItem('events', JSON.stringify(events));
+    closeModal();
+}
+
 function initButtons() {
     document.getElementById('nextButton').addEventListener('click', () => {
         nav++;
@@ -124,8 +138,10 @@ function initButtons() {
     });
 
     document.getElementById('saveButton').addEventListener('click', saveEvent);
-
     document.getElementById('cancelButton').addEventListener('click', closeModal);
+
+    document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+    document.getElementById('closeButton').addEventListener('click', closeModal);
 }
 
 initButtons();
