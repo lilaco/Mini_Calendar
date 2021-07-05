@@ -7,6 +7,7 @@ let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('e
 const calendar = document.getElementById('calendar');
 const newEventModal = document.getElementById('newEventModal');
 const backDrop = document.getElementById('modalBackDrop');
+const eventTitleInput = document.getElementById('eventTitleInput');
 const weekdays = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 
 function openModal(date) {
@@ -61,17 +62,53 @@ function load() {
         const daySquare = document.createElement('div');
         daySquare.classList.add('day');
 
+        const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+
         if(i>paddingDays) {
             daySquare.innerText = i - paddingDays;
 
+            const eventForDay = events.find(e => e.date === dayString);
+
+            if(eventForDay) {
+               const eventDiv = document.createElement('div');
+               eventDiv.classList.add('event');
+               eventDiv.innerText = eventForDay.title;
+               daySquare.appendChild(eventDiv);
+            }
+
             // daySquare.addEventListener('click', () => console.log('click'));
-            daySquare.addEventListener('click', () => openModal());
+            daySquare.addEventListener('click', () => openModal(dayString));
         } else {
             daySquare.classList.add('padding');
         }
 
         // I need to catch error appendChild().
         calendar.appendChild(daySquare);
+    }
+}
+
+function closeModal() {
+    eventTitleInput.classList.remove('error');
+    newEventModal.style.display = 'none';
+    backDrop.style.display = 'none';
+    eventTitleInput.value = '';
+    clicked = null;
+    load();
+}
+
+function saveEvent() {
+    if (eventTitleInput.value) {
+        eventTitleInput.classList.remove('error');
+
+        events.push({
+            date: clicked,
+            title: eventTitleInput.value,
+        });
+
+        localStorage.setItem('events', JSON.stringify(events));
+        closeModal();
+    } else {
+        eventTitleInput.classList.add('error');
     }
 }
 
@@ -85,6 +122,10 @@ function initButtons() {
         nav--;
         load();
     });
+
+    document.getElementById('saveButton').addEventListener('click', saveEvent);
+
+    document.getElementById('cancelButton').addEventListener('click', closeModal);
 }
 
 initButtons();
